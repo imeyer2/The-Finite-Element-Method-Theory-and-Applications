@@ -189,3 +189,67 @@ def RobinLoadVector2D(p : np.ndarray, e : np.ndarray, kappa : callable, g_D : ca
         r[loc2glb] += rE
 
     return r
+
+def RivaraRefinement2D(p: np.ndarray, t: np.ndarray) -> tuple:
+    """
+    Routine to refine the mesh using the Rivara algorithm.
+
+    For triangles that are too erroneous, the algorithm splits them by 
+    drawing a median from the longest edge to the opposite vertex.
+
+    Parameters
+    ----------
+    p : np.ndarray
+        The array of nodes coordinates. Needs to be shape (2, num_nodes).
+    t : np.ndarray
+        The array of triangles. Needs to be shape (3, num_triangles).
+
+    Returns
+    -------
+    tuple
+        The refined mesh (p, t).
+
+    """
+    num_triangles = t.shape[1]  # number of triangles (elements)
+    new_points = p.copy()
+    new_triangles = []
+
+    for K in range(num_triangles):
+        loc2glb = t[:, K]
+        x = p[0, loc2glb] # x coordinates of triangles
+        y = p[1, loc2glb] # y coordinates of triangles
+
+        # Compute edge lengths
+        edge_lengths = [
+            np.linalg.norm([x[1] - x[0], y[1] - y[0]]),
+            np.linalg.norm([x[2] - x[1], y[2] - y[1]]),
+            np.linalg.norm([x[0] - x[2], y[0] - y[2]])
+        ]
+        longest_edge_idx = np.argmax(edge_lengths)
+
+        # Find the midpoint of the longest edge
+        if longest_edge_idx == 0:
+            midpoint = (p[:, loc2glb[0]] + p[:, loc2glb[1]]) / 2
+            opposite_vertex = loc2glb[2]
+        elif longest_edge_idx == 1:
+            midpoint = (p[:, loc2glb[1]] + p[:, loc2glb[2]]) / 2
+            opposite_vertex = loc2glb[0]
+        else:
+            midpoint = (p[:, loc2glb[2]] + p[:, loc2glb[0]]) / 2
+            opposite_vertex = loc2glb[1]
+
+        # Add the midpoint to the list of points
+        midpoint_idx = new_points.shape[1]
+        new_points = np.hstack((new_points, midpoint.reshape(2, 1)))
+
+        # Create new triangles
+        for i in range(3):
+            if i != longest_edge_idx:
+                new_triangle = [loc2glb[i], loc2glb[(i + 1) % 3], midpoint_idx]
+                new_triangles.append(new_triangle)
+        new_triangles.append([midpoint_idx, loc2glb[longest_edge_idx], opposite_vertex])
+
+    # Convert new_triangles to a numpy array
+    new_triangles = np.array(new_triangles).T
+
+    return new_points, new_triangles
