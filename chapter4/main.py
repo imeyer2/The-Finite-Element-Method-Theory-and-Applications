@@ -253,3 +253,5 @@ def RivaraRefinement2D(p: np.ndarray, t: np.ndarray) -> tuple:
     new_triangles = np.array(new_triangles).T
 
     return new_points, new_triangles
+
+# TODO: Implement adaptive mesh refinement outlined in 4.10
