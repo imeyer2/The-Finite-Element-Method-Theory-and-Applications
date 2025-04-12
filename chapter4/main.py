@@ -38,7 +38,15 @@ def HatGradients(x : np.ndarray, y : np.ndarray):
 
 def StiffnessAssembler2D(p : np.ndarray, t : np.ndarray, a : callable) -> np.ndarray:
     """
-    Generate the stiffneff matrix for the 2D case model problem 
+
+    The routine assembles the stiffness matrix as follows
+
+    A_{ij} = \int_{Omega} a(x,y) grad phi_i . grad phi_j dx dy
+    = \sum_{K} \int_{K} a(x,y) grad phi_i . grad phi_j dx dy
+
+    Thus the routine loops over the triangles and computes the local stiffness matrix for each triangle.
+
+    We assume the 2D case model problem 
 
     - grad . (a grad u) = f  in Omega
     -n . (a grad u) = k(u-g_D) - g_N  on boundary of Omega
@@ -85,7 +93,7 @@ def StiffnessAssembler2D(p : np.ndarray, t : np.ndarray, a : callable) -> np.nda
 
         AK = abar * area * (np.outer(b, b) + np.outer(c, c)) # local stiffness matrix 
      
-        A[loc2glb, loc2glb] += AK # add the local stiffness matrix to the global stiffness matrix
+        A[np.ix_(loc2glb, loc2glb)] += AK  # add the local stiffness matrix to the global stiffness matrix
 
     return A
 

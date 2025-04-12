@@ -1,8 +1,6 @@
 """
     Chapter 3: Piecewise Polynomial Approximations in 2D
 
-    
-
 """
 import numpy as np
 
@@ -64,7 +62,7 @@ def MassAssembler2D(p : np.ndarray, t : np.ndarray) -> np.ndarray:
 
         MK = np.array([[2, 1, 1], [1, 2, 1], [1, 1, 2]])/12 * area # local mass matrix
         
-        M[loc2glb, loc2glb] += MK # add the local mass matrix to the global mass matrix
+        M[np.ix_(loc2glb, loc2glb)] += MK # add the local mass matrix to the global mass matrix
 
     return M
 
