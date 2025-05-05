@@ -12,4 +12,4 @@ mass = MassAssembler2D(p = np.array([[0, 0], [1, 0], [0, 1]]).T,
                         t = np.array([[0, 1, 2]]).T)
 
 print("Stiffness matrix:\n", stiff)
-print("Mass matrix:\n", mass)
+print("Mass matrix:\n", mass) 

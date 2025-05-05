@@ -12,7 +12,7 @@
 import numpy as np
 from chapter3.main import PolyArea
 
-def HatGradients(x : np.ndarray, y : np.ndarray):
+def HatGradients(x : np.ndarray, y : np.ndarray) -> tuple:
     """
     Routine to calculate gradients of the hat functions in 2D given the coordinates of the vertices.
 
@@ -28,6 +28,17 @@ def HatGradients(x : np.ndarray, y : np.ndarray):
         The x-coordinates of the vertices.
     y : np.ndarray
         The y-coordinates of the vertices.
+
+    Returns
+    -------
+    tuple
+    
+        area : float
+            The area of the triangle.
+        b : np.ndarray
+            The coefficients b_i of the hat functions.
+        c : np.ndarray
+            The coefficients c_i of the hat functions.
     
     """
 

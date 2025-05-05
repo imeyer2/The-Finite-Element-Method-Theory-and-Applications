@@ -83,7 +83,6 @@ def SourceAssembler1D(x : np.ndarray, f : callable, kappa_0 : float, kappa_L : f
     return b
 
 
-
 def AdaptiveMethod1D(x : np.ndarray, f : callable, tol : float) -> tuple[np.ndarray, np.ndarray]:
     """
     Routine to evalute a FEM solution using the adaptive method.
