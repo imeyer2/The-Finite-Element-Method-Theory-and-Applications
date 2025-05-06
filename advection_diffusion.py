@@ -249,7 +249,7 @@ def solve_advection_diffusion(hmax=0.02,
 
 if __name__ == "__main__":
     # Example 1: Steady-state with low diffusion
-    solve_advection_diffusion(hmax=0.02, diffusion_coef=0.01, steady_state=True)
+    # solve_advection_diffusion(hmax=0.02, diffusion_coef=0.01, steady_state=True)
     
     # Example 2: Time-dependent simulation
     solve_advection_diffusion(hmax=0.03, diffusion_coef=0.005, steady_state=False, dt=0.01, T_final=2.0)

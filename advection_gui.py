@@ -66,7 +66,7 @@ def assemble_matrices(p, t, v_field, diffusion_coef):
 
     return M, A
 
-def apply_dirichlet(p : np.ndarray, mat : np.ndarray, vec : np.ndarraygit ) -> None:
+def apply_dirichlet(p : np.ndarray, mat : np.ndarray, vec : np.ndarray) -> None:
     """
     Modify the matrix and vector to apply Dirichlet boundary conditions inplace
 
